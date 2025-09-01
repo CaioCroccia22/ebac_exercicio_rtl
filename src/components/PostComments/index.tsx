@@ -4,13 +4,17 @@ import styles from './PostComments.module.css';
 import Comment from '../../models/Comment';
 
 const Post = () => {
-    const [comments, setComments] = useState<Comment[]>([]);
+    const [comments, setComments] = useState<Comment[]>([
+        // O array comments já inicializa com dois valores
+        new Comment(0, 'Olá Mundo'),
+        new Comment(1, 'Olá Caio')
+    ]);
     const [tempComment, setTempComment] = useState('');
 
     function handleAddComment(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const newComment = new Comment(comments.length, tempComment);
         setTempComment('');
+        const newComment = new Comment(comments.length, tempComment)
         setComments([...comments, newComment]);
     }
 
@@ -19,7 +23,7 @@ const Post = () => {
             <ul className={styles['post-comments']}>
                 {comments.map(({ comment, id }) => (
                     <li className={styles['post-comment']} key={id}>
-                        <p className={styles['post-comment-content']}>
+                        <p data-testid="text" className={styles['post-comment-content']}>
                             {comment}
                         </p>
                     </li>
